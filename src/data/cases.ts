@@ -1,5 +1,12 @@
 import type { HouseType, RoofType, TechType } from '../store/filterStore'
 
+export type ImageKind = 'aerial' | 'eye-level' | 'detail'
+
+export interface CaseImage {
+  url: string
+  kind: ImageKind
+}
+
 export interface CaseItem {
   id: number
   name: string
@@ -10,8 +17,17 @@ export interface CaseItem {
   techInfo: string
   pvCapacity: string
   storageCapacity: string
-  images: string[]
+  images: CaseImage[]
 }
+
+const IMG = (n: number, ext: 'jpg' | 'png' = 'jpg') =>
+  `/images/cases/image${n}.${ext}`
+
+// 数据来源：resources/26墅野新居建实景样板库搭建.xlsx「素材」sheet
+// 图片映射来源：xl/drawings/drawing1.xml 中 anchor 的单元格定位
+//   H 列 = 航拍 (aerial), I 列 = 平视 (eye-level), J 列 = 细节 (detail)
+//   K 列也算细节（仅 id=4 案例额外多一张）
+// public/images/cases/imageN.{jpg,png} 已与 Excel 内嵌图片逐字节一致
 
 export const cases: CaseItem[] = [
   {
@@ -24,7 +40,11 @@ export const cases: CaseItem[] = [
     techInfo: '贴面安装',
     pvCapacity: '445纯黑组件14.4kW',
     storageCapacity: '分体式储能30.72kWh',
-    images: ['/cases/case1_0.jpg', '/cases/case1_1.jpg', '/cases/case1_2.jpg'],
+    images: [
+      { url: IMG(1), kind: 'aerial' },
+      { url: IMG(2), kind: 'eye-level' },
+      { url: IMG(3, 'png'), kind: 'detail' },
+    ],
   },
   {
     id: 2,
@@ -35,8 +55,11 @@ export const cases: CaseItem[] = [
     techType: '阵列式',
     techInfo: '平屋顶阵列+阳光房',
     pvCapacity: '445纯黑组件15.5kW',
-    storageCapacity: '储能一体机10kWh',
-    images: ['/cases/case2_0.jpg', '/cases/case2_1.jpg'],
+    storageCapacity: '储能一体机 10kWh',
+    images: [
+      { url: IMG(4), kind: 'aerial' },
+      { url: IMG(5), kind: 'eye-level' },
+    ],
   },
   {
     id: 3,
@@ -48,7 +71,11 @@ export const cases: CaseItem[] = [
     techInfo: '贴面安装',
     pvCapacity: '715组件10kW',
     storageCapacity: '',
-    images: ['/cases/case3_0.jpg', '/cases/case3_1.jpg', '/cases/case3_2.jpg'],
+    images: [
+      { url: IMG(6), kind: 'aerial' },
+      { url: IMG(7), kind: 'eye-level' },
+      { url: IMG(8), kind: 'detail' },
+    ],
   },
   {
     id: 4,
@@ -58,9 +85,14 @@ export const cases: CaseItem[] = [
     roofType: '平屋面',
     techType: '轻型支架',
     techInfo: '斜屋顶阳光房',
-    pvCapacity: '720组件10kW',
+    pvCapacity: '720组件 10kW',
     storageCapacity: '',
-    images: ['/cases/case4_0.jpg', '/cases/case4_1.jpg', '/cases/case4_2.jpg', '/cases/case4_3.jpg'],
+    images: [
+      { url: IMG(9), kind: 'aerial' },
+      { url: IMG(10), kind: 'eye-level' },
+      { url: IMG(11), kind: 'detail' },
+      { url: IMG(12), kind: 'detail' },
+    ],
   },
   {
     id: 5,
@@ -72,7 +104,11 @@ export const cases: CaseItem[] = [
     techInfo: '平屋面轻型支架',
     pvCapacity: '445W纯黑组件27.145kW',
     storageCapacity: '储能一体机20kWh',
-    images: ['/cases/case5_0.jpg', '/cases/case5_1.jpg', '/cases/case5_2.jpg'],
+    images: [
+      { url: IMG(13), kind: 'aerial' },
+      { url: IMG(14), kind: 'eye-level' },
+      { url: IMG(15), kind: 'detail' },
+    ],
   },
   {
     id: 6,
@@ -84,7 +120,11 @@ export const cases: CaseItem[] = [
     techInfo: '常规阳光房',
     pvCapacity: '720W组件11.52kW',
     storageCapacity: '',
-    images: ['/cases/case6_0.jpg', '/cases/case6_1.jpg', '/cases/case6_2.jpg'],
+    images: [
+      { url: IMG(16), kind: 'aerial' },
+      { url: IMG(17), kind: 'eye-level' },
+      { url: IMG(18), kind: 'detail' },
+    ],
   },
   {
     id: 7,
@@ -94,9 +134,13 @@ export const cases: CaseItem[] = [
     roofType: '斜屋面',
     techType: '贴面安装',
     techInfo: '贴面安装',
-    pvCapacity: '445W全黑组件13kW',
+    pvCapacity: '445W全黑组件 13kW',
     storageCapacity: '',
-    images: ['/cases/case7_0.jpg', '/cases/case7_1.jpg', '/cases/case7_2.jpg'],
+    images: [
+      { url: IMG(19), kind: 'aerial' },
+      { url: IMG(20), kind: 'eye-level' },
+      { url: IMG(21), kind: 'detail' },
+    ],
   },
   {
     id: 8,
@@ -108,7 +152,11 @@ export const cases: CaseItem[] = [
     techInfo: '贴面安装',
     pvCapacity: '445纯黑组件12kW',
     storageCapacity: '',
-    images: ['/cases/case8_0.jpg', '/cases/case8_1.jpg', '/cases/case8_2.jpg'],
+    images: [
+      { url: IMG(22), kind: 'aerial' },
+      { url: IMG(23), kind: 'eye-level' },
+      { url: IMG(24), kind: 'detail' },
+    ],
   },
   {
     id: 9,
@@ -120,7 +168,11 @@ export const cases: CaseItem[] = [
     techInfo: '大跨级阳光房',
     pvCapacity: '445纯黑组件12kW',
     storageCapacity: '储能一体机5kWh',
-    images: ['/cases/case9_0.jpg', '/cases/case9_1.jpg', '/cases/case9_2.jpg'],
+    images: [
+      { url: IMG(25), kind: 'aerial' },
+      { url: IMG(26), kind: 'eye-level' },
+      { url: IMG(27), kind: 'detail' },
+    ],
   },
   {
     id: 10,
@@ -132,6 +184,10 @@ export const cases: CaseItem[] = [
     techInfo: '大跨距阳光房',
     pvCapacity: '720组件9.45kW',
     storageCapacity: '',
-    images: ['/cases/case10_0.jpg', '/cases/case10_1.jpg', '/cases/case10_2.jpg'],
+    images: [
+      { url: IMG(28), kind: 'aerial' },
+      { url: IMG(29), kind: 'eye-level' },
+      { url: IMG(30), kind: 'detail' },
+    ],
   },
 ]

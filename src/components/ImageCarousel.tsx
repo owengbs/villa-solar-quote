@@ -1,8 +1,21 @@
 import { useState, useRef } from 'react'
 import { PhotoView } from 'react-photo-view'
+import type { CaseImage, ImageKind } from '../data/cases'
 
 interface ImageCarouselProps {
-  images: string[]
+  images: CaseImage[]
+}
+
+const KIND_LABEL: Record<ImageKind, string> = {
+  aerial: '航拍',
+  'eye-level': '平视',
+  detail: '细节',
+}
+
+const KIND_BADGE_CLASS: Record<ImageKind, string> = {
+  aerial: 'bg-sky-500/85',
+  'eye-level': 'bg-emerald-500/85',
+  detail: 'bg-amber-500/85',
 }
 
 export default function ImageCarousel({ images }: ImageCarouselProps) {
@@ -26,16 +39,22 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
         onScroll={handleScroll}
         className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar rounded-xl"
       >
-        {images.map((src, index) => (
-          <div key={index} className="flex-shrink-0 w-full snap-center">
-            <PhotoView src={src}>
+        {images.map((img, index) => (
+          <div key={index} className="flex-shrink-0 w-full snap-center relative">
+            <PhotoView src={img.url}>
               <img
-                src={src}
-                alt={`案例图片 ${index + 1}`}
+                src={img.url}
+                alt={`${KIND_LABEL[img.kind]}图 ${index + 1}`}
                 className="w-full h-48 object-cover cursor-pointer active:opacity-90 transition-opacity"
                 loading="lazy"
               />
             </PhotoView>
+            {/* 类型角标 */}
+            <span
+              className={`absolute top-2 left-2 px-2 py-0.5 text-[11px] leading-4 text-white rounded-full backdrop-blur-sm ${KIND_BADGE_CLASS[img.kind]}`}
+            >
+              {KIND_LABEL[img.kind]}
+            </span>
           </div>
         ))}
       </div>
